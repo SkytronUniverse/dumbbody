@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Karl/Scenes/DumBody_Audio_Karl_Julian.unity
+- path: Assets/Karl/Scenes/Sequencer_v1.unity
   isLoaded: 1
   isActive: 1

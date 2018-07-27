@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace dumbbody_karl
 {
-    public class PlayAudio : MonoBehaviour
+    public class PlayAudio_Karl : MonoBehaviour
     {
 
         #region Variables
