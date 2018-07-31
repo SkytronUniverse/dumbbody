@@ -9,18 +9,18 @@ public class SequencerAudio_v1 : MonoBehaviour {
 
     private static int currentRow = 0;
     private static int currentButton = 0;
+
     public bool[,] audio_to_play;
     public AudioSource[] srcAudio;
 
     #endregion Variables
 
-
     #region Methods
     private void Start()
     {
-        audio_to_play = new bool[4, 16];
+        audio_to_play = new bool[8, 16];
 
-        for (int i =0; i < 4; i++)
+        for (int i =0; i < 8; i++)
         {
             for(int j =0; j < 16; j++)
             {
@@ -66,7 +66,7 @@ public class SequencerAudio_v1 : MonoBehaviour {
             if (currentButton > 15) currentButton = 0;
         }
         currentRow++;
-        if (currentRow > 3) currentRow = 0;
+        if (currentRow > 7) currentRow = 0;
     }
 
     #endregion Methods

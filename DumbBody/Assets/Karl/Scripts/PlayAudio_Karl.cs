@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace dumbbody_karl
-{
+
     public class PlayAudio_Karl : MonoBehaviour
     {
 
@@ -142,4 +141,4 @@ namespace dumbbody_karl
         }
         #endregion Methods
     }
-}
+

@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-C:/Users/boatr/OneDrive/Documents/VR Mobile Programming/dumbbody/DumbBody/builds/dumbody_sequencer_test.apk
+C:/Users/boatr/OneDrive/Documents/VR Mobile Programming/dumbbody/DumbBody/builds/dumbody_sequencer_test_new.apk
 SceneListBegin?
 Assets/Karl/Scenes/Sequencer_v1.unity
 SceneListEnd?
@@ -130,7 +130,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-a46a160d9249d29b8d5a0e697f3198f4 Assembly-CSharp.dll:dumbbody_karl.PlayAudio_Karl
+a46a160d9249d29b8d5a0e697f3198f4 Assembly-CSharp.dll:.PlayAudio_Karl
 03f12694d8815c5c1846b514244afecc Assembly-CSharp.dll:.GvrAllEventsTrigger
 82c4df0703ee0c74fec7eda7f1754686 Assembly-CSharp.dll:.GvrAudioListener
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.GvrPointerManager
