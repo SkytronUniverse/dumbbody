@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Karl/Scenes/DumBody_Audio_Karl_Julian.unity
-  isLoaded: 1
-  isActive: 1
