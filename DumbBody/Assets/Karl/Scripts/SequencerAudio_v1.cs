@@ -16,6 +16,7 @@ public class SequencerAudio_v1 : MonoBehaviour {
     #endregion Variables
 
     #region Methods
+
     private void Start()
     {
         audio_to_play = new bool[8, 16];
@@ -53,7 +54,7 @@ public class SequencerAudio_v1 : MonoBehaviour {
 
     public void PlayMusic()
     {
-        print("Executed: " + Time.time);
+        //print("Executed: " + Time.time);
         int i = currentRow;
 
         for (int j = 0; j < 16; j++)
