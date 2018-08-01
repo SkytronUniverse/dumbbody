@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class SequencerAudio_v1 : MonoBehaviour {
 
     #region Variables
+    private readonly int row = CreateSequencerButtons.sizeI;
+    private readonly int col = CreateSequencerButtons.sizeJ;
 
     private static int currentRow = 0;
     private static int currentButton = 0;
 
+    
     public bool[,] audio_to_play;
     public AudioSource[] srcAudio;
 
@@ -19,6 +22,9 @@ public class SequencerAudio_v1 : MonoBehaviour {
 
     private void Start()
     {
+        print(row);
+        print(col);
+
         audio_to_play = new bool[8, 16];
 
         for (int i =0; i < 8; i++)
@@ -56,16 +62,28 @@ public class SequencerAudio_v1 : MonoBehaviour {
     {
         //print("Executed: " + Time.time);
         int i = currentRow;
-
+        print(i);
         for (int j = 0; j < 16; j++)
         {
             
             if (audio_to_play[i, j])
                 srcAudio[j].Play();
 
-            currentButton++;
             if (currentButton > 15) currentButton = 0;
         }
+        
+        for (int j = 0; j < col; j++)
+        {
+            //Debug.Log("BeatBool at i: " + i+ " j: " + j+ " " + CreateSequencerButtons.beatBool[i, j]);
+            if (CreateSequencerButtons.beatBool[i, j])
+                srcAudio[j].Play();
+            Image buttonImg = CreateSequencerButtons.buttons[i, j].GetComponent<Image>();
+            if (buttonImg.color.Equals(Color.white) && !buttonImg.color.Equals(Color.blue))
+                CreateSequencerButtons.buttons[i, j].GetComponent<Image>().color = Color.red;
+            else if(!buttonImg.color.Equals(Color.blue))
+                buttonImg.color = Color.white;
+        }
+        
         currentRow++;
         if (currentRow > 7) currentRow = 0;
     }

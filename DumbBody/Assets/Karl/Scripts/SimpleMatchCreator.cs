@@ -9,12 +9,14 @@ public class SimpleMatchCreator : MonoBehaviour {
     public Canvas networkCanvas;
     public Canvas beatCanvas;
     public Canvas melodyCanvas;
+    public Canvas generatedSequencerCanvas;
 
     // create singleton of match maker object
     void Start()
     {
         beatCanvas.enabled = false;
         melodyCanvas.enabled = false;
+        generatedSequencerCanvas.enabled = false;
         networkCanvas.enabled = true; // Ensure that menu buttons are visible
         NetworkManager.singleton.StartMatchMaker(); //Start matchmaker
     }
@@ -26,6 +28,7 @@ public class SimpleMatchCreator : MonoBehaviour {
         networkCanvas.enabled = false; // disables menu buttons when matched is created on client/host
         beatCanvas.enabled = true;
         melodyCanvas.enabled = true;
+        generatedSequencerCanvas.enabled = true;
     }
 
     //Callback needed for CreateMatch() function
@@ -50,6 +53,7 @@ public class SimpleMatchCreator : MonoBehaviour {
         networkCanvas.enabled = false; //disable button menu when match found
         beatCanvas.enabled = true;
         melodyCanvas.enabled = true;
+        generatedSequencerCanvas.enabled = true;
     }
 
     //Callback needed for ListMatches() function
