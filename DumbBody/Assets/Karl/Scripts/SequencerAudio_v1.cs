@@ -12,9 +12,11 @@ public class SequencerAudio_v1 : MonoBehaviour {
     private static int currentRow = 0;
     private static int currentButton = 0;
 
-    
     public bool[,] audio_to_play;
+
     public AudioSource[] srcAudio;
+
+    float tempTime = 0.0f;
 
     #endregion Variables
 
@@ -36,7 +38,9 @@ public class SequencerAudio_v1 : MonoBehaviour {
         }
 
         InvokeRepeating("PlayMusic", 0.0f, 0.25f);
+
     }
+    
 
     public void SetAudioToPlay(string info)
     {
@@ -58,35 +62,30 @@ public class SequencerAudio_v1 : MonoBehaviour {
 
     }
 
+
     public void PlayMusic()
     {
         //print("Executed: " + Time.time);
+        CreateSequencerButtons.instance.OnSetButton(CreateSequencerButtons.instance.onOff);
         int i = currentRow;
+        print("On/Off value: " + (CreateSequencerButtons.instance.onOff >> (i * 8)));
+        ulong toTurn = CreateSequencerButtons.instance.onOff >> (i * 8);
         print(i);
-        for (int j = 0; j < 16; j++)
-        {
-            
-            if (audio_to_play[i, j])
-                srcAudio[j].Play();
 
-            if (currentButton > 15) currentButton = 0;
-        }
-        
-        for (int j = 0; j < col; j++)
+        for (int j = 0; j < 8; j++)
         {
-            //Debug.Log("BeatBool at i: " + i+ " j: " + j+ " " + CreateSequencerButtons.beatBool[i, j]);
-            if (CreateSequencerButtons.beatBool[i, j])
+            Debug.Log("To turn: " + ((toTurn >> j & 1) == 1));
+            if ((toTurn >> j & 1) == 1)
                 srcAudio[j].Play();
-            Image buttonImg = CreateSequencerButtons.buttons[i, j].GetComponent<Image>();
+            Image buttonImg = CreateSequencerButtons.instance.buttons[i, j].GetComponent<Image>();
+            print("Button name: " + CreateSequencerButtons.instance.buttons[i, j].name + " Color: " + buttonImg.color.ToString());
             if (buttonImg.color.Equals(Color.white) && !buttonImg.color.Equals(Color.blue))
-                CreateSequencerButtons.buttons[i, j].GetComponent<Image>().color = Color.red;
-            else if(!buttonImg.color.Equals(Color.blue))
+                buttonImg.color = Color.yellow;
+            else if (!buttonImg.color.Equals(Color.blue))
                 buttonImg.color = Color.white;
         }
-        
         currentRow++;
         if (currentRow > 7) currentRow = 0;
     }
-
     #endregion Methods
 }

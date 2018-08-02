@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
-public class CreateSequencerButtons : MonoBehaviour {
+public class CreateSequencerButtons : NetworkBehaviour {
 
     #region Variables
+
+    public static CreateSequencerButtons instance;
     Color originalColor = new Color(238,6,155,255);
+
     [SerializeField]
     private Transform sequencerGrid;
 
@@ -18,15 +22,33 @@ public class CreateSequencerButtons : MonoBehaviour {
 
     public static int sizeJ = 8;
 
-    public static GameObject[,] buttons;
+    public GameObject[,] buttons;
 
-    public static bool[,] beatBool;
+    public bool[,] beatBool;
+
+    [SyncVar(hook = "OnSetButton")]
+    public ulong onOff;
+
     #endregion Variables
 
     #region Methods
+
     private void Awake()
     {
-
+        onOff = 0x00000000;
+        //Singleton
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if(instance != this)
+        {
+            Destroy(this);
+        }
+    }
+    void Start()
+    {
+        
         beatBool = new bool[sizeI, sizeJ];
 
         for (int i = 0; i < sizeI; i++)
@@ -38,27 +60,37 @@ public class CreateSequencerButtons : MonoBehaviour {
         }
 
         buttons = new GameObject[sizeI, sizeJ];
-
+        int buttonCount = 0;
         for (int i = 0; i < sizeI; i++)
         {
             for (int j = 0; j < sizeJ; j++)
             {
                 GameObject button = Instantiate(buttonPrefab);
-                button.name = "" + i + " " + j;
+                button.name = "" + buttonCount;
                 button.transform.SetParent(sequencerGrid, false);
                 button.GetComponent<Button>().onClick.AddListener(SetForPlay);
                 buttons[i, j] = button;
+                buttonCount++;
             }
         }
-
+        
     }
-
+    /*
+    public override void OnStartServer()
+    {
+        onOff = 0x00000000;
+    }
+    */
     public void SetForPlay()
     {
-        Debug.Log("Button: " + EventSystem.current.currentSelectedGameObject.name);
-        string[] ij = EventSystem.current.currentSelectedGameObject.name.Split(' ');
-        int i = int.Parse(ij[0]);
-        int j = int.Parse(ij[1]);
+        //Debug.Log("Button: " + EventSystem.current.currentSelectedGameObject.name);
+        int turnOnOff = int.Parse(EventSystem.current.currentSelectedGameObject.name);
+        onOff ^= 1ul << turnOnOff;
+    }
+
+    public void SetButton(int i , int j)
+    {
+
         if (!beatBool[i, j])
         {
             beatBool[i, j] = true;
@@ -69,6 +101,23 @@ public class CreateSequencerButtons : MonoBehaviour {
             beatBool[i, j] = false;
             buttons[i, j].GetComponent<Image>().color = originalColor;
         }
+
     }
+ 
+    public void OnSetButton(ulong bits)
+    {
+
+        for(int i = 0; i < 64; i++)
+        {
+            //Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
+            Debug.Log((onOff>> i & 1) == 1);
+            if ((onOff >> i & 1) == 1)
+                buttons[i/8,i%8].GetComponent<Image>().color = Color.blue;
+            else
+                buttons[i/8, i%8].GetComponent<Image>().color = Color.white;
+        }
+
+    }
+
     #endregion Methods
 }
