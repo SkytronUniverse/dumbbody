@@ -7,14 +7,12 @@ using UnityEngine.Networking.Match;
 public class SimpleMatchCreator : MonoBehaviour {
 
     public Canvas networkCanvas;
-    public Canvas beatCanvas;
     public Canvas melodyCanvas;
     public Canvas generatedSequencerCanvas;
 
     // create singleton of match maker object
     void Start()
     {
-        beatCanvas.enabled = false;
         melodyCanvas.enabled = false;
         generatedSequencerCanvas.enabled = false;
         networkCanvas.enabled = true; // Ensure that menu buttons are visible
@@ -26,7 +24,6 @@ public class SimpleMatchCreator : MonoBehaviour {
     {
         NetworkManager.singleton.matchMaker.CreateMatch(name, 4, true, "", "", "", 0, 0, OnInternetMatchCreate);
         networkCanvas.enabled = false; // disables menu buttons when matched is created on client/host
-        beatCanvas.enabled = true;
         melodyCanvas.enabled = true;
         generatedSequencerCanvas.enabled = true;
     }
@@ -51,7 +48,6 @@ public class SimpleMatchCreator : MonoBehaviour {
     {
         NetworkManager.singleton.matchMaker.ListMatches(0, 10, name, true, 0, 0, OnInternetMatchList);
         networkCanvas.enabled = false; //disable button menu when match found
-        beatCanvas.enabled = true;
         melodyCanvas.enabled = true;
         generatedSequencerCanvas.enabled = true;
     }

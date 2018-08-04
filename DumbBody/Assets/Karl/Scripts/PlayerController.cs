@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour {
 
+    public static bool clicked = false;
+
     [HideInInspector]
     public const float MAXSPEED = 1.5f;
 
@@ -33,7 +35,7 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
             ButtonHandler();
 
         camParent.position = head.position;
@@ -42,18 +44,6 @@ public class PlayerController : NetworkBehaviour {
         turn.x = 0f;
         turn.z = 0f;
         transform.eulerAngles = turn;
-
-        // For debugging
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
-        {
-            Debug.Log("hit: " + hit.collider.gameObject.name);
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("Clicked" + hit.collider.gameObject.name);
-                hit.collider.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-            }
-        }
 
 	}
 
@@ -91,27 +81,24 @@ public class PlayerController : NetworkBehaviour {
                 moveTimer++; //otherwise add time if button is being held down
         }
     }
-    /*
-    public void OnSetButton(ulong bits)
+
+    //To perform action of changing button colors on client side
+    [ClientRpc]
+    public void RpcChangeBits(ulong bits)
     {
+        if (!isLocalPlayer)
+            return;
 
         for (int i = 0; i < 64; i++)
         {
-            //Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
-            Debug.Log((onOff >> i & 1) == 1);
-            if ((onOff >> i & 1) == 1)
-                CreateSequencerButtons.instance.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;
+            Debug.Log((bits >> i & 1) == 1);
+            if ((bits >> i & 1) == 1)
+            {
+                Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
+                CreateSequencerButtons.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;
+            }
             else
-                CreateSequencerButtons.instance.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.white;
+                CreateSequencerButtons.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.white;
         }
-
-        CmdPressed(bits);
     }
-
-    [Command]
-    public void CmdPressed(ulong bits)
-    {
-        onOff = bits;
-    }
-    */
 }

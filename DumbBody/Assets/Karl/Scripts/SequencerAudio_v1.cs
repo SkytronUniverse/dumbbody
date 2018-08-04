@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class SequencerAudio_v1 : MonoBehaviour {
+public class SequencerAudio_v1 : NetworkBehaviour {
 
     #region Variables
-    private readonly int row = CreateSequencerButtons.sizeI;
-    private readonly int col = CreateSequencerButtons.sizeJ;
 
-    private static int currentRow = 0;
-    private static int currentButton = 0;
+    private static int currentRow = 0; // Used in PlayMusic() to keep track of current button row being played
 
-    public bool[,] audio_to_play;
+    public AudioSource[] srcAudio; //array of audio sources that will be played when chosen
 
-    public AudioSource[] srcAudio;
+    GameObject sequencerState; // keeps track of sequencer state
 
-    float tempTime = 0.0f;
+    private bool serverfound = false; // Used to tell is the network server is active. Otherwise will get null object references
 
     #endregion Variables
 
@@ -24,68 +22,50 @@ public class SequencerAudio_v1 : MonoBehaviour {
 
     private void Start()
     {
-        print(row);
-        print(col);
-
-        audio_to_play = new bool[8, 16];
-
-        for (int i =0; i < 8; i++)
-        {
-            for(int j =0; j < 16; j++)
-            {
-                audio_to_play[i, j] = false;
-            }
-        }
-
         InvokeRepeating("PlayMusic", 0.0f, 0.25f);
-
-    }
-    
-
-    public void SetAudioToPlay(string info)
-    {
-        int i = int.Parse(info.Substring(0, 1));
-        int j = int.Parse(info.Substring(1, 1), System.Globalization.NumberStyles.HexNumber);
-        string buttonName = info.Substring(2);
-
-        GameObject b = GameObject.Find(buttonName);
-        if (!audio_to_play[i, j])
-        {
-            audio_to_play[i, j] = true;
-            b.GetComponent<Image>().color = Color.blue;
-        }
-        else
-        {
-            audio_to_play[i, j] = false;
-            b.GetComponent<Image>().color = Color.white;
-        }
-
     }
 
 
+    //Plays music
     public void PlayMusic()
     {
+        if (!NetworkServer.active) //Checks if server is active
+        {
+            Debug.Log("Network Server is NOT active");
+            return;
+        }
+        if(NetworkServer.active && !serverfound) // if server is active
+        {
+            Debug.Log("Network Server IS active");
+            sequencerState = GameObject.FindGameObjectWithTag("SequencerState"); //Get the sequencer state object
+            serverfound = true; // one-time use to make sure that this condition statement is never accessed again
+        }
+
         //print("Executed: " + Time.time);
-        CreateSequencerButtons.instance.OnSetButton(CreateSequencerButtons.instance.onOff);
+        var sequencerInfo = sequencerState.GetComponent<SequencerStateStatus>(); // Get SequencerStatusComponent
+
         int i = currentRow;
-        print("On/Off value: " + (CreateSequencerButtons.instance.onOff >> (i * 8)));
-        ulong toTurn = CreateSequencerButtons.instance.onOff >> (i * 8);
-        print(i);
+        print("sequencer onoff: " + sequencerInfo.bitsOnOrOff);
+        //print("On/Off value: " + (sequencerInfo.onOff >> (i * 8)));
+        ulong toTurn = sequencerInfo.bitsOnOrOff >> (i * 8); // Check 8-bits each iteration
 
         for (int j = 0; j < 8; j++)
         {
-            Debug.Log("To turn: " + ((toTurn >> j & 1) == 1));
+            //Debug.Log("To turn: " + ((toTurn >> j & 1) == 1));
             if ((toTurn >> j & 1) == 1)
                 srcAudio[j].Play();
-            Image buttonImg = CreateSequencerButtons.instance.buttons[i, j].GetComponent<Image>();
-            print("Button name: " + CreateSequencerButtons.instance.buttons[i, j].name + " Color: " + buttonImg.color.ToString());
+            
+
+            //Change color of rows, row-by-row
+            Image buttonImg = CreateSequencerButtons.buttons[i, j].GetComponent<Image>();
             if (buttonImg.color.Equals(Color.white) && !buttonImg.color.Equals(Color.blue))
                 buttonImg.color = Color.yellow;
             else if (!buttonImg.color.Equals(Color.blue))
                 buttonImg.color = Color.white;
+
         }
-        currentRow++;
-        if (currentRow > 7) currentRow = 0;
+        currentRow++; //increment to next row
+        if (currentRow > 7) currentRow = 0; //if at last row, set to 0
     }
     #endregion Methods
 }

@@ -2000,6 +2000,7 @@ GameObject:
   - component: {fileID: 223510480434519964}
   - component: {fileID: 114845790072780274}
   - component: {fileID: 114259764931381896}
+  - component: {fileID: 114196269567259598}
   m_Layer: 5
   m_Name: DrumCanvas
   m_TagString: Untagged
@@ -3660,6 +3661,38 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114196269567259598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822676102058786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 244
+    i1: 196
+    i2: 92
+    i3: 252
+    i4: 104
+    i5: 167
+    i6: 207
+    i7: 132
+    i8: 184
+    i9: 141
+    i10: 62
+    i11: 229
+    i12: 236
+    i13: 236
+    i14: 94
+    i15: 143
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114213123780166752
 MonoBehaviour:
   m_ObjectHideFlags: 1
