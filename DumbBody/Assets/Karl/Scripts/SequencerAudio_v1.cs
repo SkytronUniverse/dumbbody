@@ -13,6 +13,7 @@ public class SequencerAudio_v1 : NetworkBehaviour {
     public AudioSource[] srcAudio; //array of audio sources that will be played when chosen
 
     GameObject sequencerState; // keeps track of sequencer state
+    GameObject player;
 
     private bool serverfound = false; // Used to tell is the network server is active. Otherwise will get null object references
 
@@ -20,8 +21,13 @@ public class SequencerAudio_v1 : NetworkBehaviour {
 
     #region Methods
 
-    private void Start()
+    public override void OnStartLocalPlayer()
     {
+        var audioController = GameObject.FindGameObjectWithTag("AudioController");
+        for(int i = 0; i < audioController.transform.childCount; i++)
+        {
+            srcAudio[i] = audioController.transform.GetChild(i).GetComponent<AudioSource>();
+        }
         InvokeRepeating("PlayMusic", 0.0f, 0.25f);
     }
 
@@ -37,17 +43,27 @@ public class SequencerAudio_v1 : NetworkBehaviour {
         if(NetworkServer.active && !serverfound) // if server is active
         {
             Debug.Log("Network Server IS active");
-            sequencerState = GameObject.FindGameObjectWithTag("SequencerState"); //Get the sequencer state object
+            //sequencerState = GameObject.FindGameObjectWithTag("SequencerState"); //Get the sequencer state object
+            player = GameObject.FindGameObjectWithTag("Player");
             serverfound = true; // one-time use to make sure that this condition statement is never accessed again
         }
+        if (!isLocalPlayer)
+        {
+            Debug.Log("Is NOT local player");
+            return;
+        }
+
+        Debug.Log("IS local player");
 
         //print("Executed: " + Time.time);
-        var sequencerInfo = sequencerState.GetComponent<SequencerStateStatus>(); // Get SequencerStatusComponent
+        //var sequencerInfo = sequencerState.GetComponent<SequencerStateStatus>(); // Get SequencerStatusComponent
+        var playerBits = player.GetComponent<PlayerController>();
 
         int i = currentRow;
-        print("sequencer onoff: " + sequencerInfo.bitsOnOrOff);
+        //print("sequencer onoff: " + sequencerInfo.bitsOnOrOff);
         //print("On/Off value: " + (sequencerInfo.onOff >> (i * 8)));
-        ulong toTurn = sequencerInfo.bitsOnOrOff >> (i * 8); // Check 8-bits each iteration
+        //ulong toTurn = sequencerInfo.bitsOnOrOff >> (i * 8); // Check 8-bits each iteration
+        ulong toTurn = playerBits.bitsFlipped >> (i * 8);
 
         for (int j = 0; j < 8; j++)
         {

@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 114062176093128796}
   - component: {fileID: 114589727882764448}
   - component: {fileID: 114158709030337716}
+  - component: {fileID: 114845914654117040}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -703,6 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eab72be4f5325c4cb953fbe851aac38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bitsFlipped: 0
   speed: 0
   head: {fileID: 0}
   camParent: {fileID: 0}
@@ -759,6 +761,34 @@ MonoBehaviour:
     i15: 185
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114845914654117040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432573410662876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c9ae27719546b646b808474e7529503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  srcAudio:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114943234937642054
 MonoBehaviour:
   m_ObjectHideFlags: 1

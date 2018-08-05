@@ -23,8 +23,9 @@ public class CreateSequencerButtons : NetworkBehaviour {
 
     public static GameObject[,] buttons;
 
+    public int buttonNumber;
 
-    public static string buttonName;
+    public string buttonName;
 
     #endregion Variables
 
@@ -58,6 +59,7 @@ public class CreateSequencerButtons : NetworkBehaviour {
     {
         //Debug.Log("The button have been clicked in GetButtonName: " + EventSystem.current.currentSelectedGameObject.name);
         buttonName = EventSystem.current.currentSelectedGameObject.name;
+        buttonNumber = int.Parse(buttonName);
         DetectButtons.clicked = true;
     }
 

@@ -27,7 +27,7 @@ public class SequencerStateStatus : NetworkBehaviour {
         Debug.Log("Flipping bits...");
         bitsOnOrOff ^= bits; //flip bits
         Debug.Log(bitsOnOrOff);
-        player.RpcChangeBits(bitsOnOrOff); // call RpcChangeBits() function in PlayerController to change button color for each client
+        player.RpcChangeBits(bits); // call RpcChangeBits() function in PlayerController to change button color for each client
         
     }
 

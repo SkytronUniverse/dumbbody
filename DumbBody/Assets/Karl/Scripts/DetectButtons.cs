@@ -15,9 +15,13 @@ public class DetectButtons : NetworkBehaviour {
 
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         Debug.Log("clicked = " + clicked);
-        if (clicked) 
+        if (clicked)
             CmdSendButtonData(); //Call command
+            
     }
 
 
@@ -28,11 +32,13 @@ public class DetectButtons : NetworkBehaviour {
         ulong bitToFlip = 0x00000000;
 
         var sequencerState = GameObject.FindGameObjectWithTag("SequencerState").GetComponent<SequencerStateStatus>();
-        Debug.Log("Button Name in CMD: " + CreateSequencerButtons.buttonName);
-        int shiftPos = int.Parse(CreateSequencerButtons.buttonName); // buttonName is an integer between 0 and 63
+        var sequencer = GameObject.FindGameObjectWithTag("SequencerCanvas").GetComponent<CreateSequencerButtons>();
+        Debug.Log("Button Name in CMD: " + sequencer.buttonNumber);
+        int shiftPos = sequencer.buttonNumber; // buttonNumber is an integer between 0 and 63
         bitToFlip ^= 1ul << shiftPos; // flips bits at the position of the button
         
         sequencerState.UpdateBits(bitToFlip); //call Update bits function in SequencerStateStatus.cs
+        
         clicked = false; //set clicked back to false
     }
 }

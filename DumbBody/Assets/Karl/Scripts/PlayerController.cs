@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour {
 
+    public ulong bitsFlipped = 0x00000000;
+
     public static bool clicked = false;
 
     [HideInInspector]
@@ -22,6 +24,9 @@ public class PlayerController : NetworkBehaviour {
     public Transform camParent;
 
 	public override void OnStartLocalPlayer () {
+        //var sequencerStateBits = GameObject.FindGameObjectWithTag("SequencerState").GetComponent<SequencerStateStatus>().bitsOnOrOff;
+        //bitsFlipped = sequencerStateBits;
+        //Debug.Log("bitsFlipped to start: " + bitsFlipped);
         transform.Find("Torso").GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         head = transform.Find("Head");
         cam = Camera.main.transform;
@@ -86,13 +91,16 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcChangeBits(ulong bits)
     {
-        if (!isLocalPlayer)
+        Debug.Log("Is Server: " + isServer);
+        if (!isServer)
             return;
+
+        bitsFlipped ^= bits;
 
         for (int i = 0; i < 64; i++)
         {
-            Debug.Log((bits >> i & 1) == 1);
-            if ((bits >> i & 1) == 1)
+            Debug.Log((bitsFlipped >> i & 1) == 1);
+            if ((bitsFlipped >> i & 1) == 1)
             {
                 Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
                 CreateSequencerButtons.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;

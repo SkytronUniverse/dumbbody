@@ -8,6 +8,7 @@ TagManager:
   - SequencerButtonField
   - SequencerCanvas
   - SequencerState
+  - AudioController
   layers:
   - Default
   - TransparentFX
