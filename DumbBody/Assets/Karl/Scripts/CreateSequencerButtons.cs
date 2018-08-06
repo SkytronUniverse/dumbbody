@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
+//using UnityEngine.Networking;
 
-public class CreateSequencerButtons : NetworkBehaviour {
+public class CreateSequencerButtons : MonoBehaviour {
 
     #region Variables
 
@@ -25,7 +25,7 @@ public class CreateSequencerButtons : NetworkBehaviour {
 
     public int buttonNumber;
 
-    public string buttonName;
+    public bool clicked;
 
     #endregion Variables
 
@@ -58,9 +58,10 @@ public class CreateSequencerButtons : NetworkBehaviour {
     public void GetButtonName()
     {
         //Debug.Log("The button have been clicked in GetButtonName: " + EventSystem.current.currentSelectedGameObject.name);
-        buttonName = EventSystem.current.currentSelectedGameObject.name;
+        //var player = GameObject.FindGameObjectWithTag("Player").GetComponent<DetectButtons>();
+        string buttonName = EventSystem.current.currentSelectedGameObject.name;
         buttonNumber = int.Parse(buttonName);
-        DetectButtons.clicked = true;
+        clicked = true;
     }
 
 

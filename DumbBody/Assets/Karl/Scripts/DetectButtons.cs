@@ -11,8 +11,6 @@ using UnityEngine.EventSystems;
  */ 
 public class DetectButtons : NetworkBehaviour {
 
-    public static bool clicked = false; //keeps track of clicks (also accessed by CreateSequencerButtons.cs
-
     SequencerStateStatus sequencerStateManager;
     CreateSequencerButtons sequencer;
 
@@ -29,6 +27,11 @@ public class DetectButtons : NetworkBehaviour {
         {
             sequencer = temp.GetComponent<CreateSequencerButtons>();
         }
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
     }
 
     public override void OnStartLocalPlayer()
@@ -51,10 +54,13 @@ public class DetectButtons : NetworkBehaviour {
     void Update()
     {
         if (!isLocalPlayer)
+        {
+            Debug.Log("Not Local Player");
             return;
+        }
 
-        Debug.Log("clicked = " + clicked);
-        if (clicked)
+        Debug.Log("clicked = " + sequencer.clicked);
+        if (sequencer.clicked)
             CmdSendButtonData(); //Call command
             
     }
@@ -64,6 +70,7 @@ public class DetectButtons : NetworkBehaviour {
     [Command]
     public void CmdSendButtonData()
     {
+        Debug.Log("Clicked = " + sequencer.clicked);
        ulong bitToFlip = 0x00000000;
 
         //var playerController = transform.GetComponent<PlayerController>();
@@ -80,6 +87,6 @@ public class DetectButtons : NetworkBehaviour {
         //PlayerController.bitsChanged = true;
 
         //sequencerState.UpdateList(sequencer.buttonNumber);
-        clicked = false; //set clicked back to false
+        sequencer.clicked = false; //set clicked back to false
     }
 }

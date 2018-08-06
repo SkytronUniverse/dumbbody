@@ -485,7 +485,6 @@ GameObject:
   - component: {fileID: 258933096}
   - component: {fileID: 258933095}
   - component: {fileID: 258933094}
-  - component: {fileID: 258933093}
   - component: {fileID: 258933099}
   m_Layer: 5
   m_Name: SequencerCanvas
@@ -494,39 +493,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &258933093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114315475722249448, guid: 207149ab8b99e9848826649397839b20,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258933092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 32
-    i1: 113
-    i2: 73
-    i3: 171
-    i4: 139
-    i5: 153
-    i6: 233
-    i7: 132
-    i8: 136
-    i9: 38
-    i10: 100
-    i11: 147
-    i12: 151
-    i13: 131
-    i14: 155
-    i15: 32
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &258933094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,7 +605,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 1110825936479596, guid: 032b3052cb498e64690d4bca6fed959a,
     type: 2}
   buttonNumber: 0
-  buttonName: 
+  clicked: 0
 --- !u!1 &284112159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1005,11 @@ Prefab:
     - target: {fileID: 114554481640665810, guid: f9ff093b003527945b40cdfaeda80dd2,
         type: 2}
       propertyPath: m_ServerOnly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114554481640665810, guid: f9ff093b003527945b40cdfaeda80dd2,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
