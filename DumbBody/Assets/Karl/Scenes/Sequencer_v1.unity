@@ -419,7 +419,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 242495842}
-  - component: {fileID: 242495841}
   - component: {fileID: 242495840}
   m_Layer: 0
   m_Name: SequencerStateObjectSpawner
@@ -460,19 +459,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
---- !u!114 &242495841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 242495839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cb74c9fd549b946bee0c2302639c38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequencerStateObject: {fileID: 1730782463382488, guid: f9ff093b003527945b40cdfaeda80dd2,
-    type: 2}
 --- !u!4 &242495842
 Transform:
   m_ObjectHideFlags: 0
@@ -1011,6 +997,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 536908679}
+--- !u!1001 &684593532
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189856228832274, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114554481640665810, guid: f9ff093b003527945b40cdfaeda80dd2,
+        type: 2}
+      propertyPath: m_ServerOnly
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &767278989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,8 +1847,7 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 1
   m_OfflineScene: 
   m_OnlineScene: 
-  m_SpawnPrefabs:
-  - {fileID: 1730782463382488, guid: f9ff093b003527945b40cdfaeda80dd2, type: 2}
+  m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

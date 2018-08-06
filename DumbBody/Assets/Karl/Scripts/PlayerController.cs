@@ -8,7 +8,10 @@ public class PlayerController : NetworkBehaviour {
 
     public ulong bitsFlipped = 0x00000000;
 
+    public bool[,] buttonPressed = new bool[8,8];
+
     public static bool clicked = false;
+    public static bool bitsChanged = false;
 
     [HideInInspector]
     public const float MAXSPEED = 1.5f;
@@ -23,15 +26,51 @@ public class PlayerController : NetworkBehaviour {
     private Transform cam;
     public Transform camParent;
 
-	public override void OnStartLocalPlayer () {
-        //var sequencerStateBits = GameObject.FindGameObjectWithTag("SequencerState").GetComponent<SequencerStateStatus>().bitsOnOrOff;
-        //bitsFlipped = sequencerStateBits;
-        //Debug.Log("bitsFlipped to start: " + bitsFlipped);
-        transform.Find("Torso").GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+
+    SequencerStateStatus sequencerStateManager;
+    CreateSequencerButtons sequencerButtonManager;
+
+    public override void OnStartServer()
+    {
+        GameObject temp = GameObject.FindGameObjectWithTag("SequencerState");
+        if(temp != null)
+        {
+            sequencerStateManager = temp.GetComponent<SequencerStateStatus>();
+        }
+
+        GameObject temp_1 = GameObject.FindGameObjectWithTag("SequencerCanvas");
+        if (temp_1 != null)
+        {
+            sequencerButtonManager = temp_1.GetComponent<CreateSequencerButtons>();
+        }
+    }
+
+    public override void OnStartLocalPlayer () {
+        
+        transform.Find("Torso").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         head = transform.Find("Head");
         cam = Camera.main.transform;
         camParent = cam.parent;
         camParent.position = head.position;
+
+        while(sequencerStateManager ==null)
+        {
+            GameObject temp = GameObject.FindGameObjectWithTag("SequencerState");
+            if (temp != null)
+                sequencerStateManager = temp.GetComponent<SequencerStateStatus>();
+        }
+        while (sequencerButtonManager == null)
+        {
+            GameObject temp = GameObject.FindGameObjectWithTag("SequencerCanvas");
+            if (temp != null)
+                sequencerButtonManager = temp.GetComponent<CreateSequencerButtons>();
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            buttonPressed[i, j] = false;
+        }
 	}
 	
 
@@ -44,6 +83,7 @@ public class PlayerController : NetworkBehaviour {
             ButtonHandler();
 
         camParent.position = head.position;
+
 
         Vector3 turn = cam.eulerAngles;
         turn.x = 0f;
@@ -91,22 +131,65 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcChangeBits(ulong bits)
     {
-        Debug.Log("Is Server: " + isServer);
+        
         if (!isServer)
             return;
+        Debug.Log("Is Server: " + isServer);
 
-        bitsFlipped ^= bits;
-
+        bitsFlipped = bits;
+        Debug.Log("Rpc Bits Flipped: " + bitsFlipped);
+        Debug.Log("Executing RPC on " + netId);
         for (int i = 0; i < 64; i++)
         {
             Debug.Log((bitsFlipped >> i & 1) == 1);
             if ((bitsFlipped >> i & 1) == 1)
             {
                 Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
-                CreateSequencerButtons.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;
+                sequencerButtonManager.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;
             }
             else
-                CreateSequencerButtons.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.white;
+                sequencerButtonManager.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.white;
         }
+    }
+
+    [ClientRpc]
+    public void RpcManageSequencer(int index)
+    {
+        Debug.Log("Is Server: " + isServer);
+        if (!isServer)
+            return;
+
+        Debug.Log("Updating Button Index at " + index);
+
+        if (!buttonPressed[index/8, index%8])
+        {
+            Debug.Log("Setting buttons: " + index / 8 + " " + index % 8);
+            sequencerButtonManager.buttons[index / 8, index % 8].GetComponent<Image>().color = Color.blue;
+            buttonPressed[index/8, index %8] = true;
+        }
+        else
+        {
+            sequencerButtonManager.buttons[index / 8, index % 8].GetComponent<Image>().color = Color.white;
+            buttonPressed[index/8, index%8] = false;
+        }
+        
+    }
+
+    public void SequencerButtonUpdate(ulong bits)
+    {
+
+        Debug.Log("Netid " +netId + " " + bitsFlipped);
+        for (int i = 0; i < 64; i++)
+        {
+            Debug.Log((bits >> i & 1) == 1);
+            if ((bits >> i & 1) == 1)
+            {
+                Debug.Log("Setting buttons: " + i / 8 + " " + i % 8);
+                sequencerButtonManager.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.blue;
+            }
+            else
+                sequencerButtonManager.buttons[i / 8, i % 8].GetComponent<Image>().color = Color.white;
+        }
+        bitsChanged = false;
     }
 }

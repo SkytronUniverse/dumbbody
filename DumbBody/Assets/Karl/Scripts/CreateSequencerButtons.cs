@@ -21,7 +21,7 @@ public class CreateSequencerButtons : NetworkBehaviour {
 
     public static int sizeJ = 8;
 
-    public static GameObject[,] buttons;
+    public  GameObject[,] buttons;
 
     public int buttonNumber;
 
