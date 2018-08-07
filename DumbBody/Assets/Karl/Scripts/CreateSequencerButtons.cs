@@ -9,6 +9,8 @@ public class CreateSequencerButtons : MonoBehaviour {
 
     #region Variables
 
+    public static CreateSequencerButtons instance = null;
+
     Color originalColor = new Color(238,6,155,255);
 
     [SerializeField]
@@ -31,7 +33,12 @@ public class CreateSequencerButtons : MonoBehaviour {
 
     #region Methods
 
-    
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
     void Start()
     {
 
